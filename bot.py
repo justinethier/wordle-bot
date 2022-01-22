@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 # TODO: using sqlite3 DB -
 # select * from word_counts where first = 'a' and word like '%e%' and word like '%b';
 #
