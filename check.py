@@ -8,14 +8,17 @@ import unittest
 #   2 - Letter is wrong
 #
 def check(guess, answer):
+  print("check", guess, answer)
   result = []
   remaining = list(answer)
   for i in range(0, 5):
     if guess[i] == answer[i]:
       result.append(0)
+      print("guess", guess, "answer", answer, "remaining", remaining, guess[i])
       remaining.remove(guess[i])
     elif guess[i] in remaining:
       result.append(1)
+      print("guess", guess, "answer", answer, "remaining(2)", remaining, guess[i])
       remaining.remove(guess[i])
     else:
       result.append(2)
