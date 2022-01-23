@@ -27,7 +27,7 @@ def iter(guess, answer, guesses, known, badpos, wrong):
     return True, guesses
 
   # for now, give up after so many iterations
-  if len(guesses) > 6:
+  if len(guesses) > 60:
     return False, guesses
   
   # Collect correct letters
@@ -57,7 +57,7 @@ def iter(guess, answer, guesses, known, badpos, wrong):
   # Find candidates
   con = sqlite3.connect("words.db")
   cur = con.cursor()
-  sql = "select * from word_counts where " + sql
+  sql = "select * from word_counts where " + sql + " order by random() "
   for row in cur.execute(sql):
     if row[0] != guess:
       guess = row[0]
@@ -103,30 +103,42 @@ def sql_add(sql, clause):
 #status, guesses = solve("adieu", "print")
 #print(status, guesses)
 
-print(solve("adieu", "print"))
-print(solve("adieu", "vicua"))
-print(solve("adieu", "strad"))
-print(solve("adieu", "metus"))
-print(solve("adieu", "lofts"))
-print(solve("adieu", "foppy"))
-print(solve("adieu", "munch"))
-print(solve("adieu", "waged"))
-print(solve("adieu", "assis"))
-print(solve("adieu", "abdom"))
-print(solve("adieu", "golet"))
-print(solve("adieu", "gorer"))
-print(solve("adieu", "skite"))
-print(solve("adieu", "joola"))
-print(solve("adieu", "secre"))
-print(solve("adieu", "flunk"))
-print(solve("adieu", "creel"))
-print(solve("adieu", "zamia"))
-print(solve("adieu", "snows"))
-print(solve("adieu", "lushy"))
-print(solve("adieu", "knees"))
-print(solve("adieu", "krans"))
-print(solve("adieu", "ruvid"))
-print(solve("adieu", "geoid"))
-print(solve("adieu", "griot"))
-print(solve("adieu", "apium"))
+#print(solve("adieu", "print"))
+#print(solve("adieu", "vicua"))
+#print(solve("adieu", "strad"))
+#print(solve("adieu", "metus"))
+#print(solve("adieu", "lofts"))
+#print(solve("adieu", "foppy"))
+#print(solve("adieu", "munch"))
+#print(solve("adieu", "waged"))
+#print(solve("adieu", "assis"))
+#print(solve("adieu", "abdom"))
+#print(solve("adieu", "golet"))
+#print(solve("adieu", "gorer"))
+#print(solve("adieu", "skite"))
+#print(solve("adieu", "joola"))
+#print(solve("adieu", "secre"))
+#print(solve("adieu", "flunk"))
+#print(solve("adieu", "creel"))
+#print(solve("adieu", "zamia"))
+#print(solve("adieu", "snows"))
+#print(solve("adieu", "lushy"))
+#print(solve("adieu", "knees"))
+#print(solve("adieu", "krans"))
+#print(solve("adieu", "ruvid"))
+#print(solve("adieu", "geoid"))
+#print(solve("adieu", "griot"))
+#print(solve("adieu", "apium"))
 
+con = sqlite3.connect("words.db")
+cur = con.cursor()
+sql = "select * from word_counts order by random() limit 100"
+guesses = 0
+runs = 0
+for row in cur.execute(sql):
+  state, words = solve("adieu", row[0])
+  guesses = guesses + len(words)
+  runs = runs + 1
+  #print(state, words)
+
+print(runs, guesses/runs)
