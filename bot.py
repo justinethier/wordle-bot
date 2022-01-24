@@ -55,13 +55,16 @@ def iter(guess, answer, guesses, known, badpos, wrong):
   #print("known", known, "known chars", known_chars, "sql", sql)
 
   # Find candidates
-  con = sqlite3.connect("words.db")
-  cur = con.cursor()
-  sql = "select * from word_counts where " + sql + " order by random() "
-  for row in cur.execute(sql):
-    if row[0] != guess:
-      guess = row[0]
-      break
+  if len(guesses) == 1:
+    guess = "linty"
+  else:
+    con = sqlite3.connect("words.db")
+    cur = con.cursor()
+    sql = "select * from word_counts where " + sql + " order by random() "
+    for row in cur.execute(sql):
+      if row[0] != guess:
+        guess = row[0]
+        break
 
   return iter(guess, answer, guesses, known, known_chars, wrong)
 
@@ -136,7 +139,7 @@ sql = "select * from word_counts order by random() limit 100"
 guesses = 0
 runs = 0
 for row in cur.execute(sql):
-  state, words = solve("adieu", row[0])
+  state, words = solve("soare", row[0])
   guesses = guesses + len(words)
   runs = runs + 1
   #print(state, words)
